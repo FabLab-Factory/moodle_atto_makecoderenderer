@@ -1,0 +1,10 @@
+{
+    "name": "moodle-atto_makecoderenderer-button",
+    "builds": {
+        "moodle-atto_makecoderenderer-button": {
+            "jsfiles": [
+                "button.js"
+            ]
+        }
+    }
+}
