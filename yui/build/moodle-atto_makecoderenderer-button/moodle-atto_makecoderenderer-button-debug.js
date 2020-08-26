@@ -315,7 +315,8 @@ Y.namespace('M.atto_makecoderenderer').Button = Y.Base.create('button', Y.M.edit
         host.focus();
         host.setSelection(this._currentSelection);
 
-        var html = this._getCodeSnippet();
+        var html = '';
+        html += this._getCodeSnippet();
 
         var makecoderenderertemplate = Y.Handlebars.compile(MAKECODERENDERERTEMPLATE);
         makecoderenderer = makecoderenderertemplate({
@@ -383,6 +384,14 @@ Y.namespace('M.atto_makecoderenderer').Button = Y.Base.create('button', Y.M.edit
             var codesnippet = codesnippettemplate({
                 pub: pub,
                 code: pub,
+                CSS: CSS
+            });
+            html = html + codesnippet;   
+        } else if(code !== ''){
+            var codesnippettemplate = Y. Handlebars.compile(CODESNIPPETTEMPLATE);
+            var codesnippet = codesnippettemplate({
+                pub: '',
+                code: code,
                 CSS: CSS
             });
             html = html + codesnippet;   
