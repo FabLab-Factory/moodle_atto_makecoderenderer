@@ -24,10 +24,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2020082501;        
+$plugin->version   = 2020090100;        
 $plugin->requires  = 2013110500;     
 $plugin->component = 'atto_makecoderenderer';
 $plugin->maturity  = MATURITY_BETA;
 // Human readable version information
-$plugin->release   = '1.0.2 (Build 2020082501)';
+$plugin->release   = '1.0.3 (Build 2020090100)';
 

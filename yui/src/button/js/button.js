@@ -119,27 +119,29 @@ var CSS = {
             'function renderPre(pre) {' +
                 'if (!pre.id) pre.id = Math.random();' +
                 'var f = document.getElementById("makecoderenderer");' +
-                'if (!f || !!pendingPres) {' +
-                '    pendingPres.push(pre);' +
-                '    injectRenderer();' +
-                '} else {' +
-                '    if (pre.getAttribute("data-pub") != "") {' +
-                '        f.contentWindow.postMessage({' +
-                '            type: "renderblocks",' +
-                '            id: pre.id,' +
-                '            code: "",' +
-                '            options: {' +
-                '                packageId: pre.getAttribute("data-pub")' +
-                '            }' +
-                '        }, "https://makecode.microbit.org/");' +
-                '    } else {' +
-                '        f.contentWindow.postMessage({' +
-                '            type: "renderblocks",' + 
-                '            id: pre.id,' +
-                '            code: pre.innerText,' +
-                '            options: {}' +
-                '        }, "https://makecode.microbit.org/");' +
-                '    }' +
+                'if (pre.getAttribute("class") == "atto_makecoderenderer_codesnippet") {' +
+                '   if (!f || !!pendingPres) {' +
+                '       pendingPres.push(pre);' +
+                '       injectRenderer();' +
+                '   } else {' +
+                '       if (pre.getAttribute("data-pub") != "") {' +
+                '           f.contentWindow.postMessage({' +
+                '               type: "renderblocks",' +
+                '               id: pre.id,' +
+                '               code: "",' +
+                '               options: {' +
+                '                   packageId: pre.getAttribute("data-pub")' +
+                '               }' +
+                '           }, "https://makecode.microbit.org/");' +
+                '       } else {' +
+                '           f.contentWindow.postMessage({' +
+                '               type: "renderblocks",' + 
+                '               id: pre.id,' +
+                '               code: pre.innerText,' +
+                '               options: {}' +
+                '           }, "https://makecode.microbit.org/");' +
+                '       }' +
+                '   }' +
                 '}' +
             '}' +
 
@@ -153,7 +155,7 @@ var CSS = {
             '            var pres = pendingPres;' +
             '            pendingPres = undefined;' +
             '            pres.forEach(function(pre) {' +
-            '                renderPre(pre);' +
+            '               renderPre(pre);' +
             '            });' +
             '            break;' +
             '        case "renderblocks":' +
@@ -169,7 +171,6 @@ var CSS = {
             '            break;' +
             '    }' +
             '}, false);' +
-
             'return renderPre;' +
         '})();' +
 
