@@ -1,3 +1,5 @@
+YUI.add('moodle-atto_makecoderenderer-button', function (Y, NAME) {
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -119,27 +121,29 @@ var CSS = {
             'function renderPre(pre) {' +
                 'if (!pre.id) pre.id = Math.random();' +
                 'var f = document.getElementById("makecoderenderer");' +
-                'if (!f || !!pendingPres) {' +
-                '    pendingPres.push(pre);' +
-                '    injectRenderer();' +
-                '} else {' +
-                '    if (pre.getAttribute("data-pub") != "") {' +
-                '        f.contentWindow.postMessage({' +
-                '            type: "renderblocks",' +
-                '            id: pre.id,' +
-                '            code: "",' +
-                '            options: {' +
-                '                packageId: pre.getAttribute("data-pub")' +
-                '            }' +
-                '        }, "https://makecode.microbit.org/");' +
-                '    } else {' +
-                '        f.contentWindow.postMessage({' +
-                '            type: "renderblocks",' + 
-                '            id: pre.id,' +
-                '            code: pre.innerText,' +
-                '            options: {}' +
-                '        }, "https://makecode.microbit.org/");' +
-                '    }' +
+                'if (pre.getAttribute("class") == "atto_makecoderenderer_codesnippet") {' +
+                '   if (!f || !!pendingPres) {' +
+                '       pendingPres.push(pre);' +
+                '       injectRenderer();' +
+                '   } else {' +
+                '       if (pre.getAttribute("data-pub") != "") {' +
+                '           f.contentWindow.postMessage({' +
+                '               type: "renderblocks",' +
+                '               id: pre.id,' +
+                '               code: "",' +
+                '               options: {' +
+                '                   packageId: pre.getAttribute("data-pub")' +
+                '               }' +
+                '           }, "https://makecode.microbit.org/");' +
+                '       } else {' +
+                '           f.contentWindow.postMessage({' +
+                '               type: "renderblocks",' + 
+                '               id: pre.id,' +
+                '               code: pre.innerText,' +
+                '               options: {}' +
+                '           }, "https://makecode.microbit.org/");' +
+                '       }' +
+                '   }' +
                 '}' +
             '}' +
 
@@ -153,7 +157,7 @@ var CSS = {
             '            var pres = pendingPres;' +
             '            pendingPres = undefined;' +
             '            pres.forEach(function(pre) {' +
-            '                renderPre(pre);' +
+            '               renderPre(pre);' +
             '            });' +
             '            break;' +
             '        case "renderblocks":' +
@@ -169,7 +173,6 @@ var CSS = {
             '            break;' +
             '    }' +
             '}, false);' +
-
             'return renderPre;' +
         '})();' +
 
@@ -313,7 +316,8 @@ Y.namespace('M.atto_makecoderenderer').Button = Y.Base.create('button', Y.M.edit
         host.focus();
         host.setSelection(this._currentSelection);
 
-        var html = this._getCodeSnippet();
+        var html = '';
+        html += this._getCodeSnippet();
 
         var makecoderenderertemplate = Y.Handlebars.compile(MAKECODERENDERERTEMPLATE);
         makecoderenderer = makecoderenderertemplate({
@@ -384,6 +388,14 @@ Y.namespace('M.atto_makecoderenderer').Button = Y.Base.create('button', Y.M.edit
                 CSS: CSS
             });
             html = html + codesnippet;   
+        } else if(code !== ''){
+            var codesnippettemplate = Y. Handlebars.compile(CODESNIPPETTEMPLATE);
+            var codesnippet = codesnippettemplate({
+                pub: '',
+                code: code,
+                CSS: CSS
+            });
+            html = html + codesnippet;   
         }
         return html;
     },
@@ -399,3 +411,5 @@ Y.namespace('M.atto_makecoderenderer').Button = Y.Base.create('button', Y.M.edit
         return false;
     }
 });
+
+}, '@VERSION@', {"requires": ["moodle-editor_atto-plugin"]});
